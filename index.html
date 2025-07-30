@@ -1,0 +1,1725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cake House - Premium Cakes & Desserts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-pink: #ff6b9d;
+            --secondary-pink: #ffc2d1;
+            --accent-teal: #06d6a0;
+            --warm-yellow: #ffd23f;
+            --soft-purple: #c084fc;
+            --cream: #fef7f0;
+            --dark-text: #2d3748;
+            --light-gray: #f7fafc;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background: var(--cream);
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-pink);
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: linear-gradient(135deg, var(--primary-pink), var(--soft-purple));
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .cart-icon {
+            position: relative;
+            background: var(--accent-teal);
+            color: white;
+            padding: 0.7rem;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cart-icon:hover {
+            transform: scale(1.1);
+            background: var(--primary-pink);
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: var(--warm-yellow);
+            color: var(--dark-text);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        /* Page Container */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .page.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Home Page */
+        .hero {
+            background: linear-gradient(135deg, var(--secondary-pink) 0%, var(--cream) 50%, var(--light-gray) 100%);
+            padding: 4rem 5%;
+            display: flex;
+            align-items: center;
+            min-height: 80vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: -20%;
+            width: 40%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="3" fill="rgba(255,107,157,0.1)"/><circle cx="80" cy="40" r="2" fill="rgba(192,132,252,0.15)"/><circle cx="40" cy="80" r="2.5" fill="rgba(6,214,160,0.1)"/></svg>');
+            animation: float 15s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateX(0) rotate(0deg); }
+            50% { transform: translateX(-10px) rotate(180deg); }
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-pink), var(--soft-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: var(--dark-text);
+            opacity: 0.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-pink), var(--soft-purple));
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 107, 157, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--dark-text);
+            border: 2px solid var(--primary-pink);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.4);
+        }
+
+        .hero-image {
+            text-align: center;
+            font-size: 15rem;
+            opacity: 0.8;
+            animation: bounce 3s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 5%;
+            background: var(--white);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, var(--primary-pink), var(--accent-teal));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--light-gray);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        /* Shop Page */
+        .shop-header {
+            background: linear-gradient(135deg, var(--accent-teal), var(--primary-pink));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            padding: 3rem 5%;
+        }
+
+        .product-card {
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .product-image {
+            height: 200px;
+            background: linear-gradient(135deg, var(--secondary-pink), var(--warm-yellow));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-info {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark-text);
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary-pink);
+            margin-bottom: 1rem;
+        }
+
+        .add-to-cart {
+            width: 100%;
+            background: linear-gradient(135deg, var(--primary-pink), var(--soft-purple));
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 157, 0.3);
+        }
+
+        /* Order Form */
+        .order-form {
+            max-width: 600px;
+            margin: 2rem auto;
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: var(--white);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-pink);
+            box-shadow: 0 0 0 3px rgba(255, 107, 157, 0.1);
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 400px;
+            height: 100vh;
+            background: var(--white);
+            box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+            z-index: 1001;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .cart-sidebar.open {
+            right: 0;
+        }
+
+        .cart-header {
+            background: var(--primary-pink);
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .cart-items {
+            padding: 1rem;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .cart-total {
+            padding: 1rem;
+            background: var(--light-gray);
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* About Page */
+        .about-hero {
+            background: linear-gradient(135deg, var(--soft-purple), var(--accent-teal));
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .about-content {
+            padding: 4rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 4rem;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .about-image {
+            text-align: center;
+            font-size: 8rem;
+            opacity: 0.7;
+        }
+
+        /* Contact Page */
+        .contact-hero {
+            background: linear-gradient(135deg, var(--warm-yellow), var(--primary-pink));
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .contact-content {
+            padding: 4rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info {
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--light-gray);
+            border-radius: 15px;
+        }
+
+        .contact-icon {
+            font-size: 2rem;
+            color: var(--primary-pink);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--dark-text), #1a202c);
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Enhanced Social Media Section - FIXED SIZE */
+        .social-section {
+            background: linear-gradient(135deg, #ffc2d1 0%, #fef7f0 100%);
+            padding: 5rem 5%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="10" r="2" fill="rgba(255,107,157,0.1)"/><circle cx="90" cy="30" r="1.5" fill="rgba(255,210,63,0.15)"/><circle cx="30" cy="70" r="2" fill="rgba(192,132,252,0.1)"/><circle cx="60" cy="90" r="1.8" fill="rgba(6,214,160,0.1)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .social-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .social-header {
+            margin-bottom: 3rem;
+        }
+        
+        .social-title {
+            font-size: 2.5rem;
+            background: linear-gradient(135deg, var(--primary-pink), var(--soft-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+        
+        .social-subtitle {
+            color: var(--dark-text);
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.8;
+        }
+        
+        .social-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .social-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .social-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-pink), var(--soft-purple));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        
+        .social-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .social-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .social-icon {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-card:hover .social-icon {
+            transform: scale(1.1);
+        }
+        
+        .social-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark-text);
+        }
+        
+        .social-handle {
+            color: #666;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-btn {
+            display: inline-block;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            border: 2px solid transparent;
+        }
+        
+        .social-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.9;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Platform-specific styles */
+        .facebook .social-icon {
+            background: linear-gradient(135deg, #3b5998, #1877f2);
+            color: white;
+        }
+        
+        .facebook .social-btn::before {
+            background: linear-gradient(135deg, #3b5998, #1877f2);
+        }
+        
+        .instagram .social-icon {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: white;
+        }
+        
+        .instagram .social-btn::before {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+        }
+        
+        .twitter .social-icon {
+            background: linear-gradient(135deg, #1da1f2, #1da0f2);
+            color: white;
+        }
+        
+        .twitter .social-btn::before {
+            background: linear-gradient(135deg, #1da1f2, #1da0f2);
+        }
+        
+        .pinterest .social-icon {
+            background: linear-gradient(135deg, #bd081c, #e60023);
+            color: white;
+        }
+        
+        .pinterest .social-btn::before {
+            background: linear-gradient(135deg, #bd081c, #e60023);
+        }
+        
+        .social-btn {
+            color: white;
+        }
+        
+        .social-card:hover .social-icon {
+            animation: pulse 0.8s ease;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1.1); }
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .social-title {
+                font-size: 2rem;
+            }
+            
+            .social-subtitle {
+                font-size: 1rem;
+            }
+            
+            .social-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                padding: 2rem 1rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .cart-sidebar {
+                width: 100%;
+                right: -100%;
+            }
+        }
+
+        /* Security indicators */
+        .secure-indicator {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--accent-teal);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            z-index: 1000;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Loading animation */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--light-gray);
+            border-top: 5px solid var(--primary-pink);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <nav>
+            <a href="#" class="logo" onclick="showPage('home')">
+                🧁 <span>Cake House</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')" class="nav-link active">Home</a></li>
+                <li><a href="#" onclick="showPage('shop')" class="nav-link">Shop</a></li>
+                <li><a href="#" onclick="showPage('recipes')" class="nav-link">Recipes</a></li>
+                <li><a href="#" onclick="showPage('about')" class="nav-link">About</a></li>
+                <li><a href="#" onclick="showPage('contact')" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="cart-icon" onclick="toggleCart()">
+                🛒
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Cakes And Desserts That You Can't Resist</h1>
+                    <p>Indulge in our handcrafted cakes and desserts made with the finest ingredients. From custom birthday cakes to wedding masterpieces, we create sweet memories that last a lifetime.</p>
+                    <div class="cta-buttons">
+                        <a href="#" class="btn btn-primary" onclick="showPage('shop')">Order Now</a>
+                        <a href="#" class="btn btn-secondary" onclick="showPage('about')">Learn More</a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    🍰
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="container">
+                <h2 class="section-title">Why Choose Cake House?</h2>
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">🌟</span>
+                        <h3>Premium Quality</h3>
+                        <p>We use only the finest ingredients sourced from trusted suppliers to ensure every bite is perfect.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🎨</span>
+                        <h3>Custom Designs</h3>
+                        <p>Bring your vision to life with our custom cake designs tailored to your special occasions.</p>
+                    </div>
+                    <div class="feature-card">
+                        <span class="feature-icon">🚚</span>
+                        <h3>Fast Delivery</h3>
+                        <p>Get your delicious treats delivered fresh to your doorstep with our reliable delivery service.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Shop Page -->
+    <div id="shop" class="page">
+        <div class="shop-header">
+            <h1>Our Delicious Collection</h1>
+            <p>Discover our wide range of cakes, cupcakes, and desserts</p>
+        </div>
+        
+        <div class="products-grid" id="productsGrid">
+            <!-- Products will be dynamically loaded -->
+        </div>
+    </div>
+
+    <!-- Recipes Page -->
+    <div id="recipes" class="page">
+        <div class="shop-header" style="background: linear-gradient(135deg, var(--warm-yellow), var(--soft-purple));">
+            <h1>Sweet Recipes</h1>
+            <p>Learn to make delicious treats at home</p>
+        </div>
+        
+        <div class="container" style="padding: 4rem 5%;">
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">🍫</span>
+                    <h3>Chocolate Cake</h3>
+                    <p>Rich, moist chocolate cake with creamy frosting. Perfect for birthdays and celebrations.</p>
+                    <button class="btn btn-primary" onclick="showRecipe('chocolate')">View Recipe</button>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🍓</span>
+                    <h3>Strawberry Cupcakes</h3>
+                    <p>Light and fluffy cupcakes topped with fresh strawberry buttercream.</p>
+                    <button class="btn btn-primary" onclick="showRecipe('strawberry')">View Recipe</button>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🥕</span>
+                    <h3>Carrot Cake</h3>
+                    <p>Spiced carrot cake with cream cheese frosting and walnut pieces.</p>
+                    <button class="btn btn-primary" onclick="showRecipe('carrot')">View Recipe</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <div class="about-hero">
+            <h1>About Cake House</h1>
+            <p>Crafting sweet memories since 2015</p>
+        </div>
+        
+        <div class="about-content">
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2>Our Story</h2>
+                    <p>Founded by master baker Sarah Johnson, Cake House began as a small family bakery with a big dream: to create the most delicious and beautiful cakes in town.</p>
+                    
+                    <p>Over the years, we've grown from a neighborhood bakery to a beloved destination for cake lovers everywhere. Our commitment to quality, creativity, and customer satisfaction has never wavered.</p>
+                    
+                    <p>Every cake we create tells a story, celebrates a moment, and brings joy to those who taste it. We're honored to be part of your most special occasions.</p>
+                </div>
+                <div class="about-image">
+                    👩‍🍳
+                </div>
+            </div>
+            
+            <div class="about-grid">
+                <div class="about-image">
+                    🏆
+                </div>
+                <div class="about-text">
+                    <h2>Our Mission</h2>
+                    <p>At Cake House, we believe that every celebration deserves a perfect cake. Our mission is to create not just desserts, but edible works of art that bring people together and create lasting memories.</p>
+                    
+                    <p>We're committed to using only the finest ingredients, supporting local suppliers, and maintaining the highest standards of food safety and quality.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+        <div class="contact-hero">
+            <h1>Get In Touch</h1>
+            <p>We'd love to hear from you</p>
+        </div>
+        
+        <div class="contact-content">
+            <div class="contact-info">
+                <h2>Contact Information</h2>
+                <div class="contact-item">
+                    <span class="contact-icon">📍</span>
+                    <div>
+                        <h3>Address</h3>
+                        <p>123 Sweet Street, Bakery District<br>Cake City, CC 12345</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">📞</span>
+                    <div>
+                        <h3>Phone</h3>
+                        <p>(555) 123-CAKE<br>(555) 123-2253</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">✉️</span>
+                    <div>
+                        <h3>Email</h3>
+                        <p>orders@cakehouse.com<br>info@cakehouse.com</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">🕒</span>
+                    <div>
+                        <h3>Hours</h3>
+                        <p>Mon-Sat: 8am-8pm<br>Sunday: 10am-6pm</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="order-form">
+                <h2>Send us a Message</h2>
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Name *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Subject</label>
+                        <select id="subject" name="subject">
+                            <option value="general">General Inquiry</option>
+                            <option value="order">Order Inquiry</option>
+                            <option value="custom">Custom Cake Request</option>
+                            <option value="feedback">Feedback</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message *</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button class="close-cart" onclick="toggleCart()">×</button>
+        </div>
+        <div class="cart-items" id="cartItems">
+            <p style="text-align: center; padding: 2rem; color: #666;">Your cart is empty</p>
+        </div>
+        <div class="cart-total" id="cartTotal">
+            Total: $0.00
+        </div>
+        <div style="padding: 1rem;">
+            <button class="btn btn-primary" style="width: 100%;" onclick="checkout()">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+       <!-- New Social Media Section -->
+    <section class="social-section">
+        <div class="social-container">
+            <div class="social-header">
+                <h2 class="social-title">Join Our Sweet Community</h2>
+                <p class="social-subtitle">Follow us for daily cake inspiration, special offers, and behind-the-scenes bakery moments</p>
+            </div>
+            
+            <div class="social-grid">
+                <div class="social-card facebook" onclick="window.open('https://facebook.com/cakehouse', '_blank')">
+                    <div class="social-icon">
+                        <i class="fab fa-facebook-f">FB</i>
+                    </div>
+                    <h3 class="social-name">Facebook</h3>
+                    <p class="social-handle">@CakeHouseOfficial</p>
+                    <a href="https://facebook.com/cakehouse" class="social-btn" target="_blank">Follow Us</a>
+                </div>
+                
+                <div class="social-card instagram" onclick="window.open('https://instagram.com/cakehouse', '_blank')">
+                    <div class="social-icon">
+                        <i class="fab fa-instagram">IG</i>
+                    </div>
+                    <h3 class="social-name">Instagram</h3>
+                    <p class="social-handle">@CakeHouse_Desserts</p>
+                    <a href="https://instagram.com/cakehouse" class="social-btn" target="_blank">Follow Us</a>
+                </div>
+                
+                <div class="social-card twitter" onclick="window.open('https://twitter.com/cakehouse', '_blank')">
+                    <div class="social-icon">
+                        <i class="fab fa-twitter">TW</i>
+                    </div>
+                    <h3 class="social-name">Twitter</h3>
+                    <p class="social-handle">@CakeHouseTweets</p>
+                    <a href="https://twitter.com/cakehouse" class="social-btn" target="_blank">Follow Us</a>
+                </div>
+                
+                <div class="social-card pinterest" onclick="window.open('https://pinterest.com/cakehouse', '_blank')">
+                    <div class="social-icon">
+                        <i class="fab fa-pinterest-p">PN</i>
+                    </div>
+                    <h3 class="social-name">Pinterest</h3>
+                    <p class="social-handle">CakeInspirations</p>
+                    <a href="https://pinterest.com/cakehouse" class="social-btn" target="_blank">Follow Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    </footer>
+
+    <!-- Security Indicator -->
+    <div class="secure-indicator">
+        🔒 SSL Secured
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <script>
+        // Utility functions - moved to top to ensure availability
+        function showAlert(message, type = 'info') {
+            const alertDiv = document.createElement('div');
+            alertDiv.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 20px;
+                background: ${type === 'success' ? '#06d6a0' : type === 'error' ? '#dc3545' : '#ff6b9d'};
+                color: white;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                z-index: 2000;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                max-width: 400px;
+                word-wrap: break-word;
+                white-space: pre-line;
+                animation: slideInRight 0.3s ease;
+            `;
+            
+            alertDiv.textContent = message;
+            document.body.appendChild(alertDiv);
+
+            setTimeout(() => {
+                alertDiv.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => {
+                    if (alertDiv.parentNode) {
+                        alertDiv.parentNode.removeChild(alertDiv);
+                    }
+                }, 300);
+            }, 4000);
+        }
+
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').style.display = 'none';
+        }
+
+        // Security measures and XSS prevention
+        class SecurityManager {
+            static sanitizeInput(input) {
+                if (typeof input !== 'string') return input;
+                return input
+                    .replace(/[<>]/g, '') // Remove potential HTML tags
+                    .replace(/javascript:/gi, '') // Remove javascript: protocol
+                    .replace(/on\w+=/gi, '') // Remove event handlers
+                    .trim();
+            }
+
+            static validateEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            static validatePhone(phone) {
+                const phoneRegex = /^[\d\s\-\(\)\+]+$/;
+                return phoneRegex.test(phone);
+            }
+
+            static encryptData(data) {
+                // Simple encryption for demo (in production, use proper encryption)
+                return btoa(JSON.stringify(data));
+            }
+
+            static decryptData(encryptedData) {
+                try {
+                    return JSON.parse(atob(encryptedData));
+                } catch (e) {
+                    return null;
+                }
+            }
+        }
+
+        // Application state management
+        class AppState {
+            constructor() {
+                this.cart = [];
+                this.currentPage = 'home';
+                this.products = [
+                    {
+                        id: 1,
+                        name: "Chocolate Birthday Cake",
+                        description: "Rich chocolate cake with creamy vanilla frosting and colorful sprinkles",
+                        price: 29.99,
+                        icon: "🎂",
+                        category: "birthday"
+                    },
+                    {
+                        id: 2,
+                        name: "Wedding Dream Cake",
+                        description: "Elegant multi-tier wedding cake with fondant flowers and pearl details",
+                        price: 199.99,
+                        icon: "💒",
+                        category: "wedding"
+                    },
+                    {
+                        id: 3,
+                        name: "Strawberry Cupcakes",
+                        description: "Fluffy vanilla cupcakes with fresh strawberry buttercream (dozen)",
+                        price: 24.99,
+                        icon: "🧁",
+                        category: "cupcakes"
+                    },
+                    {
+                        id: 4,
+                        name: "Classic Cheesecake",
+                        description: "New York style cheesecake with graham cracker crust and berry compote",
+                        price: 34.99,
+                        icon: "🍰",
+                        category: "cheesecake"
+                    },
+                    {
+                        id: 5,
+                        name: "Red Velvet Delight",
+                        description: "Moist red velvet cake with cream cheese frosting and white chocolate shavings",
+                        price: 32.99,
+                        icon: "❤️",
+                        category: "specialty"
+                    },
+                    {
+                        id: 6,
+                        name: "Lemon Tart",
+                        description: "Tangy lemon curd in a buttery pastry shell with meringue peaks",
+                        price: 18.99,
+                        icon: "🍋",
+                        category: "tarts"
+                    },
+                    {
+                        id: 7,
+                        name: "Chocolate Brownies",
+                        description: "Fudgy chocolate brownies with walnuts and chocolate chips (box of 12)",
+                        price: 19.99,
+                        icon: "🍫",
+                        category: "brownies"
+                    },
+                    {
+                        id: 8,
+                        name: "Tiramisu Cake",
+                        description: "Italian-inspired tiramisu cake with coffee-soaked ladyfingers and mascarpone",
+                        price: 38.99,
+                        icon: "☕",
+                        category: "specialty"
+                    }
+                ];
+                this.loadCart();
+            }
+
+            addToCart(productId, quantity = 1) {
+                const product = this.products.find(p => p.id === productId);
+                if (!product) return false;
+
+                const existingItem = this.cart.find(item => item.id === productId);
+                if (existingItem) {
+                    existingItem.quantity += quantity;
+                } else {
+                    this.cart.push({
+                        ...product,
+                        quantity: quantity
+                    });
+                }
+
+                this.saveCart();
+                this.updateCartUI();
+                return true;
+            }
+
+            removeFromCart(productId) {
+                this.cart = this.cart.filter(item => item.id !== productId);
+                this.saveCart();
+                this.updateCartUI();
+            }
+
+            updateQuantity(productId, quantity) {
+                const item = this.cart.find(item => item.id === productId);
+                if (item) {
+                    if (quantity <= 0) {
+                        this.removeFromCart(productId);
+                    } else {
+                        item.quantity = quantity;
+                        this.saveCart();
+                        this.updateCartUI();
+                    }
+                }
+            }
+
+            getCartTotal() {
+                return this.cart.reduce((total, item) => total + (item.price * item.quantity), 0);
+            }
+
+            getCartItemCount() {
+                return this.cart.reduce((count, item) => count + item.quantity, 0);
+            }
+
+            saveCart() {
+                // Use in-memory storage instead of localStorage for security
+                const encryptedCart = SecurityManager.encryptData(this.cart);
+                sessionStorage.setItem('cake_cart', encryptedCart);
+            }
+
+            loadCart() {
+                try {
+                    const encryptedCart = sessionStorage.getItem('cake_cart');
+                    if (encryptedCart) {
+                        const decryptedCart = SecurityManager.decryptData(encryptedCart);
+                        if (decryptedCart && Array.isArray(decryptedCart)) {
+                            this.cart = decryptedCart;
+                        }
+                    }
+                } catch (e) {
+                    console.error('Error loading cart:', e);
+                    this.cart = [];
+                }
+            }
+
+            updateCartUI() {
+                // Update cart count
+                const cartCount = document.getElementById('cartCount');
+                cartCount.textContent = this.getCartItemCount();
+
+                // Update cart items
+                const cartItems = document.getElementById('cartItems');
+                if (this.cart.length === 0) {
+                    cartItems.innerHTML = '<p style="text-align: center; padding: 2rem; color: #666;">Your cart is empty</p>';
+                } else {
+                    cartItems.innerHTML = this.cart.map(item => `
+                        <div class="cart-item">
+                            <div>
+                                <div style="font-weight: bold;">${SecurityManager.sanitizeInput(item.name)}</div>
+                                <div style="color: #666; font-size: 0.9rem;">${item.price.toFixed(2)} x ${item.quantity}</div>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 0.5rem;">
+                                <button onclick="app.updateQuantity(${item.id}, ${item.quantity - 1})" style="background: #ff6b9d; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">-</button>
+                                <span>${item.quantity}</span>
+                                <button onclick="app.updateQuantity(${item.id}, ${item.quantity + 1})" style="background: #ff6b9d; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">+</button>
+                                <button onclick="app.removeFromCart(${item.id})" style="background: #dc3545; color: white; border: none; border-radius: 3px; padding: 0.2rem 0.5rem; cursor: pointer; margin-left: 0.5rem;">Remove</button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                // Update cart total
+                const cartTotal = document.getElementById('cartTotal');
+                cartTotal.textContent = `Total: $${this.getCartTotal().toFixed(2)}`;
+            }
+        }
+
+        // Initialize application
+        const app = new AppState();
+
+        // Page navigation
+        function showPage(pageId) {
+            showLoading();
+            
+            setTimeout(() => {
+                // Hide all pages
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+
+                // Show selected page
+                const targetPage = document.getElementById(pageId);
+                if (targetPage) {
+                    targetPage.classList.add('active');
+                    app.currentPage = pageId;
+
+                    // Update navigation
+                    document.querySelectorAll('.nav-link').forEach(link => {
+                        link.classList.remove('active');
+                    });
+                    
+                    const activeLink = document.querySelector(`[onclick="showPage('${pageId}')"]`);
+                    if (activeLink) {
+                        activeLink.classList.add('active');
+                    }
+
+                    // Load page-specific content
+                    if (pageId === 'shop') {
+                        loadProducts();
+                    }
+
+                    // Scroll to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+                
+                hideLoading();
+            }, 300);
+        }
+
+        // Load products into shop page
+        function loadProducts() {
+            const productsGrid = document.getElementById('productsGrid');
+            productsGrid.innerHTML = app.products.map(product => `
+                <div class="product-card">
+                    <div class="product-image">
+                        ${product.icon}
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${SecurityManager.sanitizeInput(product.name)}</h3>
+                        <p class="product-description">${SecurityManager.sanitizeInput(product.description)}</p>
+                        <div class="product-price">$${product.price.toFixed(2)}</div>
+                        <button class="add-to-cart" onclick="addToCart(${product.id})">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Cart functions
+        function addToCart(productId) {
+            if (app.addToCart(productId)) {
+                showAlert('Item added to cart!', 'success');
+            } else {
+                showAlert('Error adding item to cart', 'error');
+            }
+        }
+
+        function toggleCart() {
+            const cartSidebar = document.getElementById('cartSidebar');
+            cartSidebar.classList.toggle('open');
+        }
+
+        function checkout() {
+            if (app.cart.length === 0) {
+                showAlert('Your cart is empty!', 'error');
+                return;
+            }
+
+            showLoading();
+            
+            // Simulate checkout process
+            setTimeout(() => {
+                const orderData = {
+                    items: app.cart,
+                    total: app.getCartTotal(),
+                    timestamp: new Date().toISOString(),
+                    orderId: 'CK' + Date.now()
+                };
+
+                // Encrypt order data
+                const encryptedOrder = SecurityManager.encryptData(orderData);
+                
+                // Clear cart
+                app.cart = [];
+                app.saveCart();
+                app.updateCartUI();
+                
+                hideLoading();
+                toggleCart();
+                showAlert(`Order placed successfully! Order ID: ${orderData.orderId}\nTotal: $${orderData.total.toFixed(2)}`, 'success');
+            }, 2000);
+        }
+
+        // Recipe functions
+        function showRecipe(type) {
+            const recipes = {
+                chocolate: {
+                    title: "Rich Chocolate Cake",
+                    ingredients: ["2 cups flour", "2 cups sugar", "3/4 cup cocoa powder", "2 tsp baking soda", "1 tsp baking powder", "1 tsp salt", "2 eggs", "1 cup buttermilk", "1 cup hot coffee", "1/2 cup oil"],
+                    instructions: "1. Preheat oven to 350°F\n2. Mix dry ingredients\n3. Add wet ingredients\n4. Bake for 30-35 minutes\n5. Cool and frost"
+                },
+                strawberry: {
+                    title: "Strawberry Cupcakes",
+                    ingredients: ["1.5 cups flour", "1 cup sugar", "1/3 cup butter", "2 eggs", "1/2 cup milk", "1 cup fresh strawberries"],
+                    instructions: "1. Preheat oven to 375°F\n2. Cream butter and sugar\n3. Add eggs and milk\n4. Fold in flour and strawberries\n5. Bake 18-20 minutes"
+                },
+                carrot: {
+                    title: "Spiced Carrot Cake",
+                    ingredients: ["2 cups flour", "2 cups sugar", "1 tsp cinnamon", "1/2 tsp nutmeg", "1 tsp baking soda", "1/2 tsp salt", "4 eggs", "1.5 cups oil", "3 cups grated carrots"],
+                    instructions: "1. Preheat oven to 350°F\n2. Mix dry ingredients\n3. Beat eggs and oil\n4. Combine all ingredients\n5. Bake 40-45 minutes"
+                }
+            };
+
+            const recipe = recipes[type];
+            if (recipe) {
+                showAlert(`${recipe.title}\n\nIngredients:\n${recipe.ingredients.join('\n')}\n\nInstructions:\n${recipe.instructions}`, 'info');
+            }
+        }
+
+        // Form handling with security
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contactForm');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    handleContactForm();
+                });
+            }
+        });
+
+        function handleContactForm() {
+            const formData = new FormData(document.getElementById('contactForm'));
+            const data = {};
+
+            // Sanitize all form inputs
+            for (let [key, value] of formData.entries()) {
+                data[key] = SecurityManager.sanitizeInput(value);
+            }
+
+            // Validate required fields
+            if (!data.name || !data.email || !data.message) {
+                showAlert('Please fill in all required fields.', 'error');
+                return;
+            }
+
+            // Validate email
+            if (!SecurityManager.validateEmail(data.email)) {
+                showAlert('Please enter a valid email address.', 'error');
+                return;
+            }
+
+            // Validate phone if provided
+            if (data.phone && !SecurityManager.validatePhone(data.phone)) {
+                showAlert('Please enter a valid phone number.', 'error');
+                return;
+            }
+
+            showLoading();
+
+            // Simulate form submission
+            setTimeout(() => {
+                // Encrypt form data
+                const encryptedData = SecurityManager.encryptData(data);
+                
+                // In a real application, this would be sent to a secure server
+                console.log('Encrypted form data:', encryptedData);
+                
+                hideLoading();
+                showAlert('Thank you for your message! We\'ll get back to you soon.', 'success');
+                
+                // Reset form
+                document.getElementById('contactForm').reset();
+            }, 1500);
+        }
+
+        // Prevent common XSS attacks
+        document.addEventListener('DOMContentLoaded', function() {
+            // Disable eval
+            window.eval = function() {
+                throw new Error('eval is disabled for security');
+            };
+
+            // Monitor for suspicious activity
+            let suspiciousAttempts = 0;
+            
+            document.addEventListener('keydown', function(e) {
+                // Block F12, Ctrl+Shift+I, Ctrl+U (basic protection)
+                if (e.key === 'F12' || 
+                    (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+                    (e.ctrlKey && e.key === 'u')) {
+                    suspiciousAttempts++;
+                    if (suspiciousAttempts > 3) {
+                        showAlert('Security notice: Suspicious activity detected', 'error');
+                    }
+                }
+            });
+        });
+
+        // SQL Injection prevention (for form inputs)
+        function preventSQLInjection(input) {
+            const sqlKeywords = ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'DROP', 'UNION', 'OR', 'AND', '--', ';'];
+            const upperInput = input.toUpperCase();
+            
+            for (let keyword of sqlKeywords) {
+                if (upperInput.includes(keyword)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        // Enhanced input validation
+        function validateInput(input, type) {
+            input = SecurityManager.sanitizeInput(input);
+            
+            if (!preventSQLInjection(input)) {
+                throw new Error('Invalid input detected');
+            }
+            
+            switch (type) {
+                case 'email':
+                    return SecurityManager.validateEmail(input);
+                case 'phone':
+                    return SecurityManager.validatePhone(input);
+                case 'name':
+                    return /^[a-zA-Z\s]{2,50}$/.test(input);
+                default:
+                    return input.length > 0 && input.length < 1000;
+            }
+        }
+
+        // Close cart when clicking outside
+        document.addEventListener('click', function(e) {
+            const cart = document.getElementById('cartSidebar');
+            const cartIcon = document.querySelector('.cart-icon');
+            
+            if (cart && cartIcon && !cart.contains(e.target) && !cartIcon.contains(e.target) && cart.classList.contains('open')) {
+                toggleCart();
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                }
+            });
+        }, observerOptions);
+
+        // Observe elements for animation
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.feature-card, .product-card, .contact-item').forEach((el) => {
+                observer.observe(el);
+            });
+            
+            // Add animation to social cards
+            const socialCards = document.querySelectorAll('.social-card');
+            socialCards.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.2}s`;
+                card.style.opacity = '0';
+                card.style.animation = 'fadeInUp 0.8s forwards';
+            });
+        });
+
+        // Add fadeInUp animation
+        const fadeInUpStyle = document.createElement('style');
+        fadeInUpStyle.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes slideInRight {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOutRight {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(fadeInUpStyle);
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            app.updateCartUI();
+            loadProducts();
+        });
+    </script>
+</body>
+</html>
